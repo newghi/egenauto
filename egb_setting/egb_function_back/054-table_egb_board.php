@@ -1,0 +1,62 @@
+<?php
+function table_egb_board($name = '') {
+	$query_db = "
+	CREATE TABLE egb_board".'_'.$name." (
+		no INT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '순번',
+		board_uniq_id VARCHAR(255) COMMENT '고유 식별자',
+		board_name VARCHAR(255) COMMENT '게시글 이름',
+		board_admin VARCHAR(255) COMMENT '게시글 관리자',
+		board_status VARCHAR(255) COMMENT '게시글 상태',
+		board_user_type VARCHAR(255) COMMENT '게시글 이용자 타입',
+		board_user_nick_name VARCHAR(255) COMMENT '게시글 이용자 닉네임',
+		board_user_ip VARCHAR(255) COMMENT '게시글 이용자 ip',
+		board_user_agent VARCHAR(255) COMMENT '게시글 이용자 agent',
+		board_user_password VARCHAR(255) COMMENT '게시글 이용자 비밀번호',
+		board_user_homepage VARCHAR(255) COMMENT '게시글 이용자 홈페이지',
+		board_thumbnail_url VARCHAR(255) COMMENT '썸네일 url',
+		board_title VARCHAR(255) COMMENT '게시글 제목',
+		board_contents LONGTEXT COMMENT '게시글 내용',
+		board_view VARCHAR(255) COMMENT '게시글 조회수',
+		board_top VARCHAR(255) COMMENT '게시글 공지사항',
+		board_secret VARCHAR(255) COMMENT '게시글 비밀글 여부',
+		board_recommended VARCHAR(255) COMMENT '게시글 추천',
+		board_not_recommended VARCHAR(255) COMMENT '게시글 비추천',
+		board_url VARCHAR(255) COMMENT '게시글 url',
+		board_short_url VARCHAR(255) COMMENT '게시글 단축링크',
+		board_route_url VARCHAR(255) COMMENT '게시글 라우트 url',
+		board_slug_url VARCHAR(255) COMMENT '게시글 슬러그 url',
+		board_route_slug_url VARCHAR(255) COMMENT '게시글 라우트 슬러그 url',
+		board_number_url VARCHAR(255) COMMENT '게시글 숫자 url',
+		board_route_number_url VARCHAR(255) COMMENT '게시글 라우트 숫자 url',
+		board_category_uniq_id VARCHAR(255) COMMENT '게시글 카테고리',
+		board_class_uniq_id VARCHAR(255) COMMENT '게시글 분류',
+		board_source VARCHAR(255) COMMENT '게시글 출처',
+		board_report  VARCHAR(255) COMMENT '게시글 신고',
+		board_comment_count VARCHAR(255) COMMENT '게시글 댓글수',
+        board_seo_title VARCHAR(255) COMMENT 'SEO 제목',
+        board_seo_subject VARCHAR(255) COMMENT 'SEO 주제',
+        board_seo_description VARCHAR(255) COMMENT 'SEO 설명',
+        board_seo_keywords VARCHAR(255) COMMENT 'SEO 키워드',
+        board_seo_robots VARCHAR(255) COMMENT 'SEO 로봇설정',
+        board_seo_canonical VARCHAR(255) COMMENT 'SEO 중복방지 링크',
+        board_seo_og_title VARCHAR(255) COMMENT 'SEO OG 제목',
+        board_seo_og_description VARCHAR(255) COMMENT 'SEO OG 설명',
+        board_seo_og_img VARCHAR(255) COMMENT 'SEO OG 이미지 링크',
+        board_seo_author VARCHAR(255) COMMENT 'SEO 작성자',
+		board_etc1 VARCHAR(255) COMMENT 'etc1',
+		board_etc2 VARCHAR(255) COMMENT 'etc2',
+		board_etc3 VARCHAR(255) COMMENT 'etc3',
+		board_etc4 VARCHAR(255) COMMENT 'etc4',
+		board_etc5 VARCHAR(255) COMMENT 'etc5',
+		board_etc6 VARCHAR(255) COMMENT 'etc6',
+		board_etc7 VARCHAR(255) COMMENT 'etc7',
+		board_etc8 VARCHAR(255) COMMENT 'etc8',
+		board_etc9 VARCHAR(255) COMMENT 'etc9',
+		board_publish_date VARCHAR(255) COMMENT '최초 등록 날짜',
+		board_last_modified_at VARCHAR(255) COMMENT '마지막 수정 날짜'
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+	";
+
+	return $query_db;
+}
+?>

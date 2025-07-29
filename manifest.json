@@ -1,0 +1,29 @@
+{
+"name": "Link Internet Index",
+"short_name": "Lii", 
+"description": "Link Internet Index",
+"start_url": "/",
+"display": "standalone",
+"background_color": "#ffffff",
+"theme_color": "#f7c679",
+"icons": [
+	{
+	"src": "/egb_thumbnail.webp",
+	"sizes": "192x192", 
+	"type": "image/webp"
+	},
+	{
+	"src": "/egb_thumbnail.webp",
+	"sizes": "1182x1182",
+	"type": "image/png",
+	"purpose": "maskable"
+	}
+],
+"splash_pages": [
+	{
+	"src": "/egb_thumbnail.webp", 
+	"sizes": "1182x1182",
+	"type": "image/png"
+	}
+]
+}

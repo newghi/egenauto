@@ -1,0 +1,1 @@
+<?php define('ADMIN_TOP_BOX', true); //ADMIN_TOP_BOX 관리자 로그인시 웹 페이지 상단에 관리자바 표시 여부 true 와 false ?>

@@ -1,0 +1,1 @@
+<?php if (!defined('_EUNGABI_')) {define('_EUNGABI_', 'eungabi');} //개별 페이지 로드 방지 상수 생성?>

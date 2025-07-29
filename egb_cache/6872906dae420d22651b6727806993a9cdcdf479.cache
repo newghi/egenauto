@@ -1,0 +1,6 @@
+a:6:{s:10:"expires_at";i:1753771406;s:6:"tables";a:1:{i:0;s:18:"information_schema";}s:3:"sql";s:201:"
+        SELECT COUNT(*) as count 
+        FROM information_schema.tables 
+        WHERE table_schema = DATABASE() 
+        AND (table_name = :board_table_name OR table_name = :comment_table_name)
+    ";s:6:"params";a:2:{s:17:":board_table_name";s:34:"egb_board_club_maintenance_meeting";s:19:":comment_table_name";s:36:"egb_comment_club_maintenance_meeting";}s:5:"fetch";i:1;s:4:"data";a:1:{s:5:"count";s:1:"0";}}

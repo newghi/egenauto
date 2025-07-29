@@ -1,0 +1,144 @@
+RewriteEngine On
+RewriteBase /
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # 워드프레스 디렉토리 차단
+    RewriteCond %{REQUEST_URI} ^.*/wp-(admin|includes|content)/ [NC]
+    RewriteRule ^.* - [F,L]
+
+    # 워드프레스 파일 차단
+    RewriteCond %{REQUEST_URI} ^.*/(wp-activate\.php|wp-blog-header\.php|wp-comments-post\.php|wp-config\.php|wp-config-sample\.php|wp-cron\.php|wp-links-opml\.php|wp-load\.php|wp-login\.php|wp-mail\.php|wp-settings\.php|wp-signup\.php|wp-trackback\.php|xmlrpc\.php|readme\.html|license\.txt)$ [NC]
+    RewriteRule ^.* - [F,L]
+</IfModule>
+
+# /img/파일명 → index.php?img=파일명
+# 이 규칙은 반드시 아래 "모든 요청을 index.php로 보냄" 규칙보다 먼저 있어야 함
+RewriteRule ^img/([a-zA-Z0-9_\-]+)$ index.php?img=$1 [L,QSA]
+RewriteRule ^img2/(.*)$ index.php?img2=$1 [L,QSA]
+RewriteRule ^img3/([a-zA-Z0-9_\-]+)$ index.php?img3=$1 [L,QSA]
+
+# /proxy/serve/abc123.webp → /egb_img/abc123.webp 로 rewrite
+RewriteRule ^proxy/img/([a-zA-Z0-9_\-]+)\.(webp|jpg|jpeg|png|gif|svg)$ egb_img/$1.$2 [L]
+RewriteRule ^proxy/img2/(.*)\.(webp|jpg|jpeg|png|gif|svg)$ egb_themes/eungabi/img/$1.$2 [L]
+RewriteRule ^proxy/img3/([a-zA-Z0-9_\-]+)\.(webp|jpg|jpeg|png|gif|svg)$ egb_setting/egb_resource/$1.$2 [L]
+
+# /font/파일명 → index.php?font=파일명
+RewriteRule ^font/([a-zA-Z0-9_\-]+)$ index.php?font=$1 [L,QSA]
+RewriteRule ^font2/(.*)$ index.php?font2=$1 [L,QSA]
+RewriteRule ^font3/([a-zA-Z0-9_\-]+)$ index.php?font3=$1 [L,QSA]
+
+# /proxy/font/파일명.확장자 → 실제 /egb_font/파일명.확장자 로 rewrite
+RewriteRule ^proxy/font/([a-zA-Z0-9_\-]+)\.(woff2|woff|ttf|otf|eot)$ egb_font/$1.$2 [L]
+RewriteRule ^proxy/font2/(.*)\.(woff2|woff|ttf|otf|eot)$ egb_themes/eungabi/font/$1.$2 [L]
+RewriteRule ^proxy/font3/([a-zA-Z0-9_\-]+)\.(woff2|woff|ttf|otf|eot)$ egb_setting/egb_resource/$1.$2 [L]
+
+# ===== FONT REWRITE START =====
+# 자동 생성됨. 이 블록은 수정하지 마세요.
+RewriteRule ^proxy/font/fontstyle1\.ttf$ egb_font/Pretendard-Regular.ttf [L]
+RewriteRule ^proxy/font/fontstyle2\.ttf$ egb_font/Pretendard-Medium.ttf [L]
+RewriteRule ^proxy/font/fontstyle3\.ttf$ egb_font/Pretendard-SemiBold.ttf [L]
+RewriteRule ^proxy/font/fontstyle4\.ttf$ egb_font/Inter-ExtraBoldItalic.ttf [L]
+# ===== FONT REWRITE END =====
+
+# /video/파일명 → index.php?video=파일명
+RewriteRule ^video/([a-zA-Z0-9_\-]+)$ index.php?video=$1 [L,QSA]
+RewriteRule ^video2/(.*)$ index.php?video2=$1 [L,QSA]
+RewriteRule ^video3/([a-zA-Z0-9_\-]+)$ index.php?video3=$1 [L,QSA]
+
+# /proxy/video/파일명.확장자 → 실제 egb_video/파일명.확장자
+RewriteRule ^proxy/video/([a-zA-Z0-9_\-]+)\.(mp4|webm|ogg)$ egb_video/$1.$2 [L]
+RewriteRule ^proxy/video2/(.*)\.(mp4|webm|ogg)$ egb_themes/eungabi/video/$1.$2 [L]
+RewriteRule ^proxy/video3/([a-zA-Z0-9_\-]+)\.(mp4|webm|ogg)$ egb_setting/egb_resource/$1.$2 [L]
+
+# /audio/파일명 → index.php?audio=파일명
+RewriteRule ^audio/([a-zA-Z0-9_\-]+)$ index.php?audio=$1 [L,QSA]
+RewriteRule ^audio2/(.*)$ index.php?audio2=$1 [L,QSA]
+RewriteRule ^audio3/([a-zA-Z0-9_\-]+)$ index.php?audio3=$1 [L,QSA]
+
+# /proxy/audio/파일명.확장자 → /egb_audio/파일명.확장자
+RewriteRule ^proxy/audio/([a-zA-Z0-9_\-]+)\.(mp3|wav|ogg|aac|flac)$ egb_audio/$1.$2 [L]
+RewriteRule ^proxy/audio2/(.*)\.(mp3|wav|ogg|aac|flac)$ egb_themes/eungabi/audio/$1.$2 [L]
+RewriteRule ^proxy/audio3/([a-zA-Z0-9_\-]+)\.(mp3|wav|ogg|aac|flac)$ egb_setting/egb_resource/$1.$2 [L]
+
+# ===== THEME REWRITE START =====
+# 자동 생성됨. 이 블록은 수정하지 마세요.
+RewriteRule ^proxy/font2/Pretendard-Medium\.ttf$ egb_themes/eungabi/font/Pretendard-Medium.ttf [L]
+RewriteRule ^proxy/font2/Pretendard-Regular\.ttf$ egb_themes/eungabi/font/Pretendard-Regular.ttf [L]
+RewriteRule ^proxy/font2/Pretendard-SemiBold\.ttf$ egb_themes/eungabi/font/Pretendard-SemiBold.ttf [L]
+RewriteRule ^proxy/img2/([a-zA-Z0-9_\-]+)\.(webp|jpg|jpeg|png|gif|svg)$ egb_themes/eungabi/img/. [L]
+RewriteRule ^proxy/video2/([a-zA-Z0-9_\-]+)\.(mp4|webm|ogg)$ egb_themes/eungabi/video/. [L]
+RewriteRule ^proxy/audio2/([a-zA-Z0-9_\-]+)\.(mp3|wav|ogg|aac|flac)$ egb_themes/eungabi/audio/. [L]
+# ===== THEME REWRITE END =====
+
+# 디렉토리 인덱싱 비활성화
+Options -Indexes
+
+# 403 오류를 index.php로 리디렉션
+# ErrorDocument 403 /index.php
+
+# 존재하지 않는 파일/디렉토리는 index.php로 전달
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php [L]
+
+# 캐싱 설정 추가
+
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml
+    AddOutputFilterByType DEFLATE text/css application/javascript
+    AddOutputFilterByType DEFLATE application/json application/xml
+    AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
+<IfModule mod_expires.c>
+    ExpiresActive On
+
+    # 이미지 파일 캐시 (1년)
+    ExpiresByType image/jpg "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+
+    # CSS, JS 파일 캐시 (1주일)
+    ExpiresByType text/css "access plus 1 week"
+    ExpiresByType application/javascript "access plus 1 week"
+
+    # HTML 파일 캐시 (1시간)
+    ExpiresByType text/html "access plus 3600 seconds"
+
+    # 폰트 파일 캐시 (1년)
+    ExpiresByType application/font-woff2 "access plus 1 year"
+    ExpiresByType application/font-woff "access plus 1 year"
+    ExpiresByType application/vnd.ms-fontobject "access plus 1 year"
+    ExpiresByType font/opentype "access plus 1 year"
+    ExpiresByType font/ttf "access plus 1 year"
+    ExpiresByType font/otf "access plus 1 year"
+</IfModule>
+
+<IfModule mod_headers.c>
+    # 이미지 캐시
+    <FilesMatch "\.(jpg|jpeg|png|gif|svg|webp|ico)$">
+        Header set Cache-Control "public, max-age=31536000, immutable"
+    </FilesMatch>
+
+    # CSS, JS 캐시
+    <FilesMatch "\.(css|js)$">
+        Header set Cache-Control "public, max-age=604800"
+    </FilesMatch>
+
+    # HTML 캐시
+    <FilesMatch "\.(html|htm)$">
+        Header set Cache-Control "public, max-age=3600"
+    </FilesMatch>
+
+    # 폰트 캐시
+    <FilesMatch "\.(woff|woff2|eot|otf|ttf)$">
+        Header set Cache-Control "public, max-age=31536000, immutable"
+        Header unset Pragma
+        Header set Expires "access plus 1 year"
+    </FilesMatch>
+</IfModule>
