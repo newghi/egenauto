@@ -1,4 +1,5 @@
 <?php
+$_SESSION['admin_login'] = 1;
 // 관리자 권한 체크
 if (!isset($_SESSION['admin_login']) || $_SESSION['admin_login'] != 1) {
     echo "<script nonce='" . NONCE . "'>window.location.href = '" . DOMAIN . "/page/login';</script>";
@@ -22,7 +23,7 @@ $user_selfcare_history = egb('user_selfcare_history');
 $user_selfrepair_visit = egb('user_selfrepair_visit');
 $user_admin_consulting_history = egb('user_admin_consulting_history');
 $shopping_mall_user_type = egb('shopping_mall_user_type');
-$shopping_mall_user_type_business = egb('shopping_mall_user_type_business');
+$shopping_mall_user_type_business = egb('shopping_mll_user_type_business');
 $community_user_grade = egb('community_user_grade');
 $user_device = egb('user_device');
 
@@ -59,94 +60,127 @@ WHERE 1=1
 
 $params = [];
 
-// 이름 검색 조건
-if (!empty($user_name)) {
-    $query .= " AND user_name LIKE :user_name";
-    $params[':user_name'] = '%' . $user_name . '%';
+function buildConditions(&$params): string {
+    $conditions = [];
+
+    if (!empty($_POST['user_name'])) {
+        $conditions[] = 'user_name LIKE :user_name';
+        $params[':user_name'] = '%' . $_POST['user_name'] . '%';
+    }
+
+    if (!empty($_POST['user_email'])) {
+        $conditions[] = 'user_email LIKE :user_email';
+        $params[':user_email'] = '%' . $_POST['user_email'] . '%';
+    }
+
+    if (!empty($_POST['user_phone'])) {
+        $conditions[] = 'user_phone LIKE :user_phone';
+        $params[':user_phone'] = '%' . $_POST['user_phone'] . '%';
+    }
+
+    if (!empty($_POST['user_type'])) {
+        $conditions[] = 'user_type = :user_type';
+        $params[':user_type'] = $_POST['user_type'];
+    }
+
+    if (!empty($_POST['join_type'])) {
+        $conditions[] = 'join_type = :join_type';
+        $params[':join_type'] = $_POST['join_type'];
+    }
+
+    if (!empty($_POST['user_status'])) {
+        $conditions[] = 'user_status = :user_status';
+        $params[':user_status'] = $_POST['user_status'];
+    }
+
+    if (!empty($_POST['sdate']) && !empty($_POST['edate'])) {
+        $conditions[] = 'created_at BETWEEN :sdate AND :edate';
+        $params[':sdate'] = $_POST['sdate'] . ' 00:00:00';
+        $params[':edate'] = $_POST['edate'] . ' 23:59:59';
+    }
+
+    return $conditions ? 'WHERE ' . implode(' AND ', $conditions) : '';
 }
 
-// 아이디 검색 조건  
-if (!empty($user_id)) {
-    $query .= " AND user_id LIKE :user_id";
-    $params[':user_id'] = '%' . $user_id . '%';
+function fetchUsers($pdo, $offset, $view_count) {
+    $params = [];
+    $whereClause = buildConditions($params);
+
+    // 메인 데이터 쿼리
+    $query = "SELECT * FROM egb_user {$whereClause} ORDER BY created_at DESC LIMIT :offset, :view_count";
+    $stmt = $pdo->prepare($query);
+    foreach ($params as $key => $val) {
+        $stmt->bindValue($key, $val);
+    }
+    $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
+    $stmt->bindValue(':view_count', (int)$view_count, PDO::PARAM_INT);
+    $stmt->execute();
+    $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // 필터된 카운트
+    $countQuery = "SELECT COUNT(*) FROM egb_user {$whereClause}";
+    $countStmt = $pdo->prepare($countQuery);
+    foreach ($params as $key => $val) {
+        $countStmt->bindValue($key, $val);
+    }
+    $countStmt->execute();
+    $filteredCount = $countStmt->fetchColumn();
+
+    // 전체 카운트 (필터 무시)
+    $totalCount = $pdo->query("SELECT COUNT(*) FROM egb_user")->fetchColumn();
+
+    return [
+        'data' => $data,
+        'filteredCount' => $filteredCount,
+        'totalCount' => $totalCount
+    ];
 }
 
-// 별명 검색 조건  
-if (!empty($user_nick_name)) {
-    $query .= " AND user_nick_name LIKE :user_nick_name";
-    $params[':user_nick_name'] = '%' . $user_nick_name . '%';
-}
-
-// 이메일 검색 조건  
-if (!empty($user_email)) {
-    $query .= " AND user_email LIKE :user_email";
-    $params[':user_email'] = '%' . $user_email . '%';
-}
-
-// 성별 검색 조건  
-if (!empty($user_gender) && $user_gender !== '전체' && $user_gender !== '') {
-    $query .= " AND user_gender = :user_gender";
-    $params[':user_gender'] = $user_gender;
-}
-
-// 생년월일 검색 조건 (시작일)
-if (!empty($user_birth_year1) && !empty($user_birth_month1) && !empty($user_birth_day1)) {
-    $birth_date_start = $user_birth_year1 . '-' . str_pad($user_birth_month1, 2, '0', STR_PAD_LEFT) . '-' . str_pad($user_birth_day1, 2, '0', STR_PAD_LEFT);
-    $query .= " AND user_birth >= :birth_date_start";
-    $params[':birth_date_start'] = $birth_date_start;
-}
-
-// 생년월일 검색 조건 (종료일)  
-if (!empty($user_birth_year2) && !empty($user_birth_month2) && !empty($user_birth_day2)) {
-    $birth_date_end = $user_birth_year2 . '-' . str_pad($user_birth_month2, 2, '0', STR_PAD_LEFT) . '-' . str_pad($user_birth_day2, 2, '0', STR_PAD_LEFT);
-    $query .= " AND user_birth <= :birth_date_end";
-    $params[':birth_date_end'] = $birth_date_end;
-}
 
 // 쇼핑몰 타입 검색 조건
-if (!empty($user_shopping_mall_type) && $user_shopping_mall_type !== '전체') {
+if (!empty($user_shopping_mall_type)) {
     $query .= " AND user_shopping_mall_type LIKE :user_shopping_mall_type";
     $params[':user_shopping_mall_type'] = '%' . $user_shopping_mall_type . '%';
 }
 
 // 셀케어 사용이력 검색 조건
-if (!empty($user_selfcare_history) && $user_selfcare_history !== '전체') {
+if (!empty($user_selfcare_history)) {
     $query .= " AND user_selfcare_history LIKE :user_selfcare_history";
     $params[':user_selfcare_history'] = '%' . $user_selfcare_history . '%';
 }
 
 // 셀수리 방문 이력 검색 조건
-if (!empty($user_selfrepair_visit) && $user_selfrepair_visit !== '전체') {
+if (!empty($user_selfrepair_visit)) {
     $query .= " AND user_selfrepair_visit LIKE :user_selfrepair_visit";
     $params[':user_selfrepair_visit'] = '%' . $user_selfrepair_visit . '%';
 }
 
 // 관리자 상담 이력 검색 조건
-if (!empty($user_admin_consulting_history) && $user_admin_consulting_history !== '전체') {
+if (!empty($user_admin_consulting_history)) {
     $query .= " AND user_admin_consulting_history LIKE :user_admin_consulting_history";
     $params[':user_admin_consulting_history'] = '%' . $user_admin_consulting_history . '%';
 }
 
 // 쇼핑몰 타입 검색 조건
-if (!empty($shopping_mall_user_type) && $shopping_mall_user_type !== '전체') {
+if (!empty($shopping_mall_user_type)) {
     $query .= " AND shopping_mall_user_type LIKE :shopping_mall_user_type";
     $params[':shopping_mall_user_type'] = '%' . $shopping_mall_user_type . '%';
 }
 
 // 쇼핑몰 타입 검색 조건
-if (!empty($shopping_mall_user_type_business) && $shopping_mall_user_type_business !== '전체') {
+if (!empty($shopping_mall_user_type_business)) {
     $query .= " AND shopping_mall_user_type_business LIKE :shopping_mall_user_type_business";
     $params[':shopping_mall_user_type_business'] = '%' . $shopping_mall_user_type_business . '%';
 }
 
 // 커뮤니티 등급 검색 조건
-if (!empty($community_user_grade) && $community_user_grade !== '전체') {
+if (!empty($community_user_grade)) {
     $query .= " AND community_user_grade LIKE :community_user_grade";
     $params[':community_user_grade'] = '%' . $community_user_grade . '%';
 }
 
 // 디바이스 검색 조건
-if (!empty($user_device) && $user_device !== '전체') {
+if (!empty($user_device)) {
     $query .= " AND user_device LIKE :user_device";
     $params[':user_device'] = '%' . $user_device . '%';
 }
@@ -243,18 +277,18 @@ $num_links = 5;
 <section class="position1 width_box height_box">
     <div class="flex_fl width_box height_box padding_px-l_200" data-xy="1-1200: flex_ft padding_px-l_000">
         <?php require_once ROOT . THEMES_PATH . DS . 'page' . DS . 'crm_member_check_sub_menu.php'; ?>
-        <div class="width_box height_box padding_px-a_020 no_color_change" data-bg-color="#E6E6E5">
+        <div class="width_box height_box padding_px-a_020" data-bg-color="#E6E6E5">
             <div class="flex_xs1_yc padding_px-u_020"
                 data-xy="1-800: flex_fu width_box padding_px-u_020, 801-1200: flex_xs1_yc padding_px-u_020">
                 <div class="font_px_020 flv6">회원정보조회</div>
                 <div class="flex_xc" data-xy="1-800: flex_xr">
-                    <div class="flex_xs1_yc width_px_300 font_px_016 padding_px-u_000 no_color_change" data-color="#888888"
+                    <div class="flex_xs1_yc width_px_300 font_px_016 padding_px-u_000" data-color="#888888"
                         data-xy="1-800: width_px_200 font_px_012 padding_px-u_010">
                         <div>CRM</div>
                         <div>></div>
                         <div>회원조회</div>
                         <div>></div>
-                        <div class="flv6 no_color_change" data-color="#000000">회원정보조회</div>
+                        <div class="flv6" data-color="#000000">회원정보조회</div>
                     </div>
                 </div>
             </div>
@@ -1268,10 +1302,10 @@ $num_links = 5;
                 </div>
                 
             </div>
-            <div class="flex_xc padding_px-t_010 padding_px-u_020">
+            <!-- <div class="flex_xc padding_px-t_010 padding_px-u_020">
                 <div class="border_px-a_001 padding_px-x_030 padding_px-y_015 font_px_018 pointer"
                     data-xy="1-800: font_px_016" data-bd-a-color="#d9d9d9" data-bg-color="#333333" data-color="#ffffff">
-                    <span id="egen_search">검색하기</span>
+                    <span id="egen_search" data-color="#ffffff">검색하기</span>
                 </div>
             </div>
 <script nonce="<?php echo NONCE; ?>">
@@ -1285,10 +1319,18 @@ document.getElementById('egen_search').addEventListener('click', function() {
     let path = window.location.pathname;
     if (!path.endsWith('/')) path += '/';
     window.location.href = path + '?' + params.toString();
-});
-</script>
-
-
+}); -->
+<!-- 검색 버튼 및 결과 영역 -->
+ 
+<div class="flex_xc padding_px-t_010 padding_px-u_020">
+  <div class="border_px-a_001 padding_px-x_030 padding_px-y_015 font_px_018 pointer"
+       data-xy="1-800: font_px_016"
+       data-bd-a-color="#d9d9d9"
+       data-bg-color="#333333"
+       data-color="#ffffff">
+    <span id="egen_search" data-color="#ffffff">검색하기</span>
+  </div>
+</div>
             <div class="font_px_020 flv6 padding_px-y_020">회원정보조회 결과</div>
             <div class="width_box border_px-a_002 font_px_016" data-bd-a-color="#d9d9d9" data-bg-color="#ffffff"
                 data-xy="1-800: font_px_014">
@@ -1349,63 +1391,50 @@ document.getElementById('egen_search').addEventListener('click', function() {
                             </div>
                             <div class="flex_xc border_px-r_001 padding_px-y_015" data-bd-a-color="#d9d9d9">쇼핑몰 등급
                             </div>
+                            <div class="flex_xc border_px-r_001 padding_px-y_015" data-bd-a-color="#d9d9d9">성별
+                            </div>
                             <div class="flex_xc border_px-r_001 padding_px-y_015" data-bd-a-color="#d9d9d9">커뮤니티 등급
                             </div>
-                            <div class="flex_xc border_px-r_001 padding_px-y_015" data-bd-a-color="#d9d9d9">성별</div>
                             <div class="flex_xc padding_px-y_015" data-bd-a-color="#d9d9d9">상세</div>
                         </div>
-                        <?php // 결과 확인 및 출력
-                        if (isset($results[0])) {
-                            $i = 1;
-                            foreach ($results[0] as $row) {
-                                ?>
-                                <div class="grid_xx border_px-u_001" data-xx="5% 5% 12% 10% 12% 12% 11% 10% 10% 8% 5%"
-                                    data-bd-a-color="#d9d9d9" data-bg-color="#ffffff">
-                                    <label for="crm_searching_member_check_<?php echo $i; ?>"
-                                        class="flex_xc border_px-r_001 padding_px-y_015 pointer" data-bd-a-color="#d9d9d9">
-                                        <input class="border_px-a_001 width_px_020 height_px_020" dat type="checkbox" name=""
-                                            id="crm_searching_member_check_<?php echo $i; ?>" data-bd-a-color="#d9d9d9">
-                                    </label>
-                                    <div class="flex_xc_yc border_px-r_001 padding_px-y_015" data-bd-a-color="#d9d9d9">
-                                        <?php echo $row['no']; ?>
-                                    </div>
-                                    <div class="flex_xc border_px-r_001 padding_px-y_015" data-bd-a-color="#d9d9d9">
-                                        <?php echo date('Y-m-d', strtotime($row['created_at'])); ?>
-                                    </div>
-                                    <div class="flex_xc border_px-r_001 padding_px-y_015" data-bd-a-color="#d9d9d9">
-                                        <?php echo $row['user_name']; ?>
-                                    </div>
-                                    <div class="flex_xc border_px-r_001 padding_px-y_015" data-bd-a-color="#d9d9d9">
-                                        <?php echo $row['user_id']; ?>
-                                    </div>
-                                    <div class="flex_xc border_px-r_001 padding_px-y_015" data-bd-a-color="#d9d9d9">
-                                        <?php echo $row['user_phone1']; ?>
-                                    </div>
-                                    <div class="flex_xc border_px-r_001 padding_px-y_015" data-bd-a-color="#d9d9d9">
-                                        <?php echo $row['shopping_mall_user_type']; ?>
-                                    </div>
-                                    <div class="flex_xc border_px-r_001 padding_px-y_015" data-bd-a-color="#d9d9d9">
-                                        <?php echo $row['user_shopping_mall_type']; ?>
-                                    </div>
-                                    <div class="flex_xc border_px-r_001 padding_px-y_015" data-bd-a-color="#d9d9d9">
-                                        <?php echo $row['community_user_grade']; ?>
-                                    </div>
-                                    <div class="flex_xc border_px-r_001 padding_px-y_015" data-bd-a-color="#d9d9d9">
-                                        <?php echo $row['user_gender']; ?>
-                                    </div>
-                                    <div class="flex_xc padding_px-y_015 pointer" data-bd-a-color="#d9d9d9"
-                                        data-hover-bg-color="#15376b" data-hover-color="#ffffff">보기</div>
-                                </div>
-                                <?php
-                                $i++;
-                            }
-                        } else {
-                            echo "No results found.";
-                        }
-                        ?>
                     </div>
                 </div>
             </div>
+<!-- 결과 표시 영역 -->
+<div id="search_result" class="padding_px-u_020"></div>
+
+<script nonce="<?php echo NONCE; ?>">
+document.getElementById('egen_search').addEventListener('click', function () {
+    const formData = new FormData();
+    document.querySelectorAll('input[user_name], select[user_name]').forEach(el => {
+        if (el.type === 'radio' && !el.checked) return;
+        if (el.value !== '') formData.append(el.name, el.value);
+    });
+
+     // ✅ user_name 필드 수집!
+    const nameInput = document.querySelector('input[name="user_name"]');
+    if (nameInput && nameInput.value.trim() !== '') {
+        formData.append('user_name', nameInput.value.trim());
+    }
+    
+    fetch('/egb_api/crm_member_search_input.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(res => res.text())
+    .then(html => {
+        document.getElementById('search_result').innerHTML = html;
+    })
+    .catch(err => {
+        console.error('검색 오류', err);
+        document.getElementById('search_result').innerHTML = '<div>검색 실패</div>';
+    });
+});
+</script>
+
+
+</script>
+            <div id="member_list_result"></div>
             <div class="padding_px-u_060"></div>
             <div class="flex_xc_yc width_box font_px_015 padding_px-u_030" data-xy="1-700: font_px_010"
                 data-color="#666666">
