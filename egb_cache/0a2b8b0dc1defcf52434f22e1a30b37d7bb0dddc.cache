@@ -1,6 +1,0 @@
-a:6:{s:10:"expires_at";i:1754023847;s:6:"tables";a:1:{i:0;s:8:"egb_menu";}s:3:"sql";s:133:"
-    SELECT * 
-    FROM egb_menu 
-    WHERE group_uniq_id = :group_uniq_id AND is_status = 1
-    ORDER BY display_order ASC
-    ";s:6:"params";a:1:{s:14:":group_uniq_id";s:13:"68886c57b893f";}s:5:"fetch";i:0;s:4:"data";a:1:{i:0;a:15:{s:2:"no";i:32;s:7:"uniq_id";s:13:"68886c57bc8f4";s:9:"is_status";i:1;s:13:"display_order";i:0;s:13:"group_uniq_id";s:13:"68886c57b893f";s:9:"menu_name";s:3:"홈";s:8:"menu_url";s:1:"/";s:11:"menu_target";s:5:"_self";s:17:"menu_access_level";i:0;s:10:"created_by";s:6:"system";s:10:"updated_by";N;s:10:"deleted_by";N;s:10:"created_at";s:19:"2025-07-29 15:38:16";s:10:"deleted_at";N;s:10:"updated_at";s:19:"2025-07-29 15:38:16";}}}

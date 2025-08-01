@@ -1,6 +1,0 @@
-a:6:{s:10:"expires_at";i:1753772235;s:6:"tables";a:1:{i:0;s:16:"egb_option_group";}s:3:"sql";s:131:"
-        SELECT uniq_id
-        FROM egb_option_group
-        WHERE group_code = :group_code AND is_status = 1
-        LIMIT 1
-    ";s:6:"params";a:1:{s:11:":group_code";s:11:"user_gender";}s:5:"fetch";i:1;s:4:"data";a:1:{s:7:"uniq_id";s:13:"68886c470e977";}}

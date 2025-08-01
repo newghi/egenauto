@@ -6,13 +6,13 @@ if (!defined('_EUNGABI_')) {echo "<script type=\'text/javascript\'> alert(\'개�
 
 //db_connect 상수 선언
 //db host 를 입력 보통 localhost 또는 ip주소
-if (!defined('DB_HOST')) {define('DB_HOST', 'db.egenauto.gabia.io');}
+if (!defined('DB_HOST')) {define('DB_HOST', '182.227.119.34');}
 
 //db user id 를 입력
 if (!defined('DB_USER')) {define('DB_USER', 'egenauto');}
 
 //db 접속 비밀번호를 입력
-if (!defined('DB_PASSWORD')) {define('DB_PASSWORD', 'ea@46941808');}
+if (!defined('DB_PASSWORD')) {define('DB_PASSWORD', 'Ea@!46941808');}
 
 //접속할 db의 이름
 if (!defined('DB_NAME')) {define('DB_NAME', 'dbegenauto');}
