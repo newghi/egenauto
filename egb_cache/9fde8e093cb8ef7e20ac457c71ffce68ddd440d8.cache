@@ -1,0 +1,1 @@
+a:6:{s:10:"expires_at";i:1753772307;s:6:"tables";a:1:{i:0;s:16:"egb_option_group";}s:3:"sql";s:105:"SELECT group_description FROM egb_option_group WHERE group_code = 'signup_deny_keyword' AND is_status = 1";s:6:"params";a:0:{}s:5:"fetch";i:1;s:4:"data";a:1:{s:17:"group_description";s:85:"admin,administration,administrator,master,webmaster,manage,manager,godo,godomall,test";}}

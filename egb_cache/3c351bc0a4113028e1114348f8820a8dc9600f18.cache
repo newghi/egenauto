@@ -1,0 +1,1 @@
+a:6:{s:10:"expires_at";i:1754024857;s:6:"tables";a:1:{i:0;s:14:"egb_menu_group";}s:3:"sql";s:172:"SELECT uniq_id, group_code, group_name, parent_group_uniq_id FROM egb_menu_group WHERE is_status = 1 AND group_code = :group_code ORDER BY display_order ASC, no ASC LIMIT 1";s:6:"params";a:1:{s:11:":group_code";s:21:"community_foreign_car";}s:5:"fetch";i:1;s:4:"data";b:0;}

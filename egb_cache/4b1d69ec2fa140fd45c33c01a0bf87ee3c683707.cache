@@ -1,0 +1,7 @@
+a:6:{s:10:"expires_at";i:1753772307;s:6:"tables";a:1:{i:0;s:10:"egb_reward";}s:3:"sql";s:223:"
+        SELECT reward_title, reward_name, reward_grant, reward_expired_days, reward_limit_count, reward_data
+        FROM egb_reward
+        WHERE reward_code = :reward_code
+          AND is_status = 1
+        LIMIT 1
+    ";s:6:"params";a:1:{s:12:":reward_code";s:13:"reward_signup";}s:5:"fetch";i:1;s:4:"data";a:6:{s:12:"reward_title";s:12:"회원가입";s:11:"reward_name";s:33:"회원가입 시 적립금 지급";s:12:"reward_grant";s:4:"1000";s:19:"reward_expired_days";s:3:"365";s:18:"reward_limit_count";s:1:"1";s:11:"reward_data";s:2:"{}";}}

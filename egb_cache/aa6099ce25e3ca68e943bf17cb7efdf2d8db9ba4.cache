@@ -1,0 +1,1 @@
+a:6:{s:10:"expires_at";i:1754024856;s:6:"tables";a:1:{i:0;s:10:"egb_option";}s:3:"sql";s:127:"SELECT uniq_id FROM egb_option WHERE option_group_uniq_id = :option_group_uniq_id AND option_label = '멘티' AND is_status = 1";s:6:"params";a:1:{s:21:":option_group_uniq_id";s:13:"68886c4637748";}s:5:"fetch";i:1;s:4:"data";a:1:{s:7:"uniq_id";s:13:"68886c463f745";}}

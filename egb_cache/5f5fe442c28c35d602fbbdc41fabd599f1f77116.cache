@@ -1,0 +1,6 @@
+a:6:{s:10:"expires_at";i:1753772307;s:6:"tables";a:1:{i:0;s:8:"egb_user";}s:3:"sql";s:123:"
+        SELECT community_user_grade
+        FROM egb_user 
+        WHERE uniq_id = :user_uniq_id
+        LIMIT 1
+    ";s:6:"params";a:1:{s:13:":user_uniq_id";s:13:"68886fe72980b";}s:5:"fetch";i:1;s:4:"data";a:1:{s:20:"community_user_grade";N;}}
