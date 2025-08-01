@@ -1302,26 +1302,7 @@ $num_links = 5;
                 </div>
                 
             </div>
-            <!-- <div class="flex_xc padding_px-t_010 padding_px-u_020">
-                <div class="border_px-a_001 padding_px-x_030 padding_px-y_015 font_px_018 pointer"
-                    data-xy="1-800: font_px_016" data-bd-a-color="#d9d9d9" data-bg-color="#333333" data-color="#ffffff">
-                    <span id="egen_search" data-color="#ffffff">검색하기</span>
-                </div>
-            </div>
-<script nonce="<?php echo NONCE; ?>">
-document.getElementById('egen_search').addEventListener('click', function() {
-    const params = new URLSearchParams();
-    document.querySelectorAll('input[name], select[name]').forEach(el => {
-        if (el.type === 'radio' && !el.checked) return;
-        if (el.value !== '') params.append(el.name, el.value);
-    });
-    // 반드시 경로 끝에 '/' 하나만 남기고 '?' 붙이기
-    let path = window.location.pathname;
-    if (!path.endsWith('/')) path += '/';
-    window.location.href = path + '?' + params.toString();
-}); -->
-<!-- 검색 버튼 및 결과 영역 -->
- 
+    
 <div class="flex_xc padding_px-t_010 padding_px-u_020">
   <div class="border_px-a_001 padding_px-x_030 padding_px-y_015 font_px_018 pointer"
        data-xy="1-800: font_px_016"
