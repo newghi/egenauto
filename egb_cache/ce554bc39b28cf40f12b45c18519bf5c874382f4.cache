@@ -1,4 +1,4 @@
-a:6:{s:10:"expires_at";i:1753773831;s:6:"tables";a:1:{i:0;s:8:"egb_menu";}s:3:"sql";s:133:"
+a:6:{s:10:"expires_at";i:1754023848;s:6:"tables";a:1:{i:0;s:8:"egb_menu";}s:3:"sql";s:133:"
     SELECT * 
     FROM egb_menu 
     WHERE group_uniq_id = :group_uniq_id AND is_status = 1
