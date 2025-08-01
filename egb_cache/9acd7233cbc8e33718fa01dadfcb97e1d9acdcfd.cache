@@ -1,1 +1,0 @@
-a:6:{s:10:"expires_at";i:1753772307;s:6:"tables";a:1:{i:0;s:10:"egb_option";}s:3:"sql";s:83:"SELECT option_label FROM egb_option WHERE uniq_id = :uniq_id AND deleted_at IS NULL";s:6:"params";a:1:{s:8:":uniq_id";s:13:"68886c4610570";}s:5:"fetch";i:1;s:4:"data";a:1:{s:12:"option_label";s:12:"일반회원";}}

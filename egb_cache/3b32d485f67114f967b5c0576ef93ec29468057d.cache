@@ -1,2 +1,0 @@
-a:6:{s:10:"expires_at";i:1753954020;s:6:"tables";a:1:{i:0;s:16:"egb_resource_map";}s:3:"sql";s:174:"SELECT resource_path, resource_name, resource_extension FROM egb_resource_map 
-                 WHERE uniq_id = :uniq_id AND resource_type = :resource_type AND is_status = 1";s:6:"params";a:2:{s:8:":uniq_id";s:13:"68887dcf6e18e";s:14:":resource_type";s:3:"img";}s:5:"fetch";i:1;s:4:"data";a:3:{s:13:"resource_path";s:55:"/egb_setting/egb_resource/68887dcf6e18e_w1024_h1024.png";s:13:"resource_name";s:29:"68887dcf6e18e_w1024_h1024.png";s:18:"resource_extension";s:3:"png";}}

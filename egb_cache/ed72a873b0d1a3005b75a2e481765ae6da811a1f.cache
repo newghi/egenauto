@@ -1,9 +1,0 @@
-a:6:{s:10:"expires_at";i:1753773855;s:6:"tables";a:1:{i:0;s:10:"egb_option";}s:3:"sql";s:409:"
-        SELECT no, uniq_id, is_status, display_order, 
-               option_group_uniq_id, option_label, option_access_level,
-               option_is_active, option_data, created_by, updated_by,
-               deleted_by, created_at, deleted_at, updated_at
-        FROM egb_option
-        WHERE option_group_uniq_id = :group_uniq_id AND is_status = 1
-        ORDER BY display_order ASC, no ASC
-    ";s:6:"params";a:1:{s:14:":group_uniq_id";s:13:"68886c460b756";}s:5:"fetch";i:0;s:4:"data";a:2:{i:0;a:15:{s:2:"no";i:1;s:7:"uniq_id";s:13:"68886c4610570";s:9:"is_status";i:1;s:13:"display_order";i:0;s:20:"option_group_uniq_id";s:13:"68886c460b756";s:12:"option_label";s:12:"일반회원";s:19:"option_access_level";i:0;s:16:"option_is_active";i:1;s:11:"option_data";N;s:10:"created_by";s:6:"system";s:10:"updated_by";N;s:10:"deleted_by";N;s:10:"created_at";s:19:"2025-07-29 15:37:58";s:10:"deleted_at";N;s:10:"updated_at";s:19:"2025-07-29 15:37:58";}i:1;a:15:{s:2:"no";i:2;s:7:"uniq_id";s:13:"68886c46154d4";s:9:"is_status";i:1;s:13:"display_order";i:0;s:20:"option_group_uniq_id";s:13:"68886c460b756";s:12:"option_label";s:12:"기업회원";s:19:"option_access_level";i:0;s:16:"option_is_active";i:1;s:11:"option_data";N;s:10:"created_by";s:6:"system";s:10:"updated_by";N;s:10:"deleted_by";N;s:10:"created_at";s:19:"2025-07-29 15:37:58";s:10:"deleted_at";N;s:10:"updated_at";s:19:"2025-07-29 15:37:58";}}}

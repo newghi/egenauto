@@ -1,6 +1,0 @@
-a:6:{s:10:"expires_at";i:1753772307;s:6:"tables";a:1:{i:0;s:10:"egb_reward";}s:3:"sql";s:118:"
-        SELECT reward_data
-        FROM egb_reward
-        WHERE reward_code = :reward_code
-        LIMIT 1
-    ";s:6:"params";a:1:{s:12:":reward_code";s:13:"reward_signup";}s:5:"fetch";i:1;s:4:"data";a:1:{s:11:"reward_data";s:2:"{}";}}

@@ -1,6 +1,0 @@
-a:6:{s:10:"expires_at";i:1753773854;s:6:"tables";a:1:{i:0;s:16:"egb_record_count";}s:3:"sql";s:119:"
-    SELECT record_total_count 
-    FROM egb_record_count 
-    WHERE record_table_name = :table_name 
-    LIMIT 1
-";s:6:"params";a:1:{s:11:":table_name";s:8:"egb_user";}s:5:"fetch";i:1;s:4:"data";a:1:{s:18:"record_total_count";i:1;}}
