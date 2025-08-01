@@ -1,0 +1,1 @@
+a:6:{s:10:"expires_at";i:1754031478;s:6:"tables";a:1:{i:0;s:8:"egb_page";}s:3:"sql";s:80:"SELECT * FROM egb_page WHERE page_name = :page_name AND page_theme = :page_theme";s:6:"params";a:2:{s:10:":page_name";s:30:"mentoring_onetoone_board_write";s:11:":page_theme";s:7:"eungabi";}s:5:"fetch";i:1;s:4:"data";b:0;}

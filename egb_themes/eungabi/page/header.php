@@ -738,7 +738,7 @@ if (isset($_SESSION['user_login']) && $_SESSION['user_login'] == 1) {
 
     }
 
-    .:hover {
+    :hover {
         color: #15376b;
     }
 
